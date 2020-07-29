@@ -9,28 +9,70 @@
 </head>
 
 <body class="text-gray-600 font-body">
-    <div id="app">
+    <div id="app" class="grid md:grid-cols-3">
         <!--Content Wrapper-->
-        <div>
-            <nav>
-                <div>
-                    <h1 class="font-bold uppercase p-4 border-b border-gray-100">
-                        <a href="./index.html">Food Ninja</a>
+        <div class="md:col-span-1 md:flex md:justify-end">
+            <nav class="text-right">
+                <div class="flex justify-between items-center">
+                    <h1 class="font-bold uppercase p-4 border-b border-gray-200">
+                        <a href="./index.html" class="hover:text-gray-700">Food Ninja</a>
                     </h1>
+                    <div class="px-4 cursor-pointer md:hidden" id="menu-icon" @click="menuToggle">
+                        <svg class="w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </div>
                 </div>
-                <ul>
-                    <li class="text-gray-700 font-bold"><a href="#"><span>Home</span></a></li>
-                    <li><a href="#"><span>About</span></a></li>
-                    <li><a href="#"><span>Contact</span></a></li>
+                <ul :class="['text-sm mt-6 md:block', menuOpen ? '' : 'hidden']" id="menu">
+                    <li class="py-1text-gray-700 font-bold">
+                        <a href="#" class="px-4 flex justify-end border-r-4 border-primary">
+                            <span>Home</span>
+                            <svg class="w-5 ml-2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="py-1 border-r-4 border-white">
+                        <a href="#" class="px-4 flex justify-end">
+                            <span>About</span>
+                            <svg class="w-5 ml-2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="py-1 border-r-4 border-white">
+                        <a href="#" class="px-4 flex justify-end">
+                            <span>Contact</span>
+                            <svg class="w-5 ml-2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
         <!--END NAV-->
 
-        <main class="px-16 py-6">
+        <main class="px-16 py-6 bg-gray-100 md:col-span-2">
             <div class="flex justify-center md:justify-end">
-                <a href="#" class="text-primary">Login</a>
-                <a href="#" class="text-primary ml-3">Register</a>
+                <a href="./login.html"
+                    class="btn border-primary md:border-2 text-primary hover:bg-primary hover:text-white transition ease-out duration-500">
+                    Login
+                </a>
+                <a href="#"
+                    class="btn border-primary md:border-2 text-primary hover:bg-primary hover:text-white transition ease-out duration-500 ml-3">
+                    Register
+                </a>
             </div>
 
             <header>
@@ -40,33 +82,50 @@
 
             <div>
                 <h4 class="font-bold mt-12 pb-2 border-b border-gray-200">Latest Recipies</h4>
-                <div class="mt-8">
+                <div class="mt-8 grid lg:grid-cols-3 gap-10">
                     <!-- Cards Goes Here -->
-                    <div>
-                        <img src="./assets/img/chinese1.jpg" alt="">
-                        <div>
-                            <span>5 Being Chilly Stew</span>
-                            <span>Recepie By Mario</span>
+                    <div class="card hover:shadow-lg" v-for="lat in latest">
+                        <img :src="lat.img" class="w-full h-32 sm:h-48 object-cover" alt="">
+                        <div class="m-4">
+                            <span class="font-bold">{{ lat.title }}</span>
+                            <span class="block text-gray-500 text-sm">Recepie By {{ lat.creator }}</span>
+                        </div>
+                        <div class="card-badge">
+                            <svg class="w-5 inline-block" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>{{ lat.cookingTime }} mins</span>
                         </div>
                     </div>
                     <!-- Cards Goes Here -->
                 </div>
 
                 <h4 class="font-bold mt-12 pb-2 border-b border-gray-200">Most Popular</h4>
-                <div class="mt-8">
+                <div class="mt-8 grid lg:grid-cols-3 gap-10">
                     <!-- Cards Goes Here -->
-                    <div>
-                        <img src="./assets/img/chinese2.jpg" alt="">
-                        <div>
-                            <span>5 Being Chilly Stew</span>
-                            <span>Recepie By Mario</span>
+                    <div class="card hover:shadow-lg" v-for="lat in latest">
+                        <img :src="lat.img" class="w-full h-32 sm:h-48 object-cover" alt="">
+                        <div class="m-4">
+                            <span class="font-bold">{{ lat.title }}</span>
+                            <span class="block text-gray-500 text-sm">Recepie By {{ lat.creator }}</span>
+                        </div>
+                        <div class="card-badge">
+                            <svg class="w-5 inline-block" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span>{{ lat.cookingTime }} mins</span>
                         </div>
                     </div>
                     <!-- Cards Goes Here -->
                 </div>
 
-                <div class="flex justify-center">
-                    <div class="bg-secondary-100 text-secondary-200">Load More</div>
+                <div class="flex justify-center mt-10">
+                    <div
+                        class="btn bg-secondary-100 text-secondary-200 hover:shadow-inner transform hover:scale-125 hover:bg-opacity-50 transition ease-out duration-300">
+                        Load More
+                    </div>
                 </div>
             </div>
         </main>
@@ -75,7 +134,19 @@
     <script>
         const app = new Vue({
             el: '#app',
-            data: {}
+            data: {
+                latest: [
+                    { title: "Sorted Veggies", creator: 'Yoshi', img: './assets/img/chinese2.jpg', cookingTime: 30 },
+                    { title: "Mushroom Momo", creator: 'Kentaro', img: './assets/img/chinese3.jpg', cookingTime: 23 },
+                    { title: "5 Being Chilly Stew", creator: 'Mario', img: './assets/img/chinese1.jpg', cookingTime: 25 },
+                ],
+                menuOpen: false
+            },
+            methods: {
+                menuToggle(e) {
+                    this.menuOpen = !this.menuOpen
+                }
+            }
         })
     </script>
 </body>
